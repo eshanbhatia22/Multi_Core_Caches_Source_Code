@@ -1,0 +1,1 @@
+rm -rf cov_work* report_cov_multicore

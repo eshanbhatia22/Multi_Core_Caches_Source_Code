@@ -1,0 +1,2 @@
+rm -rf $(ls -a -I "." -I ".." -I "*.f" -I "*.vsif" -I "*.bash" -I "*CLEAR*" -I "logs" -I "cov*" -I "mcsim" -I "cov_conf.ccf" -I "gen_cov_html_report" -I "*.vplanx")
+

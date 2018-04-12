@@ -1,0 +1,47 @@
+session cpu_regress
+{
+	top_dir : $ENV(PWD)/regression/ ;
+	pre_session_script : <text> echo "pre_session_script" </text>;
+};
+
+
+group all_test {
+
+      run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache" ;
+      scan_script: "vm_scan.pl ius.flt shell.flt" ;
+      count : 1;
+      pre_commands: "";
+      timeout: 13000000;
+      sv_seed: random;
+
+      test test1 {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST1" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+      test test2 {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST2" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+      test test3 {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST3" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+      test test4 {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST4" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+      test test5 {
+      	   run_script: "cd $ENV(PWD) ; irun -f run_vm.f +UVM_TESTNAME=read_miss_icache -define TEST5" ;
+           scan_script: "vm_scan.pl ius.flt shell.flt" ;
+	   count : 1;
+      };
+
+};

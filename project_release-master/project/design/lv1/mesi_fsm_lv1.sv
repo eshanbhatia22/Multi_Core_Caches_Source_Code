@@ -105,8 +105,11 @@ module mesi_fsm_lv1 #(
             MODIFIED: begin 
                 if(bus_rd)
                     updated_mesi_snoop = SHARED;
-                else if(bus_rdx)
-                    updated_mesi_snoop = MODIFIED;
+                else if(bus_rdx) begin
+		    // BUG 5 : mesi state has to be invalid when bus_rdx happens
+                    //updated_mesi_snoop = MODIFIED;
+                    updated_mesi_snoop = INVALID;
+		end
                 else
                     updated_mesi_snoop = MODIFIED;
             end

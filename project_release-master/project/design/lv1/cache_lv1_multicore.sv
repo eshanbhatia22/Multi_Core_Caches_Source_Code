@@ -172,8 +172,11 @@ module cache_lv1_multicore #(
                                                 .cpu_rd(cpu_rd[1]),
                                                 .cpu_wr(cpu_wr[1]),
                                                 .cpu_wr_done(cpu_wr_done[1]),
-                                                .bus_rd(bus_rdx),
-                                                .bus_rdx(bus_rd),
+						// BUG 4 : cross connections
+                                                //.bus_rd(bus_rdx),
+                                                //.bus_rdx(bus_rd),
+                                                .bus_rd(bus_rd),
+                                                .bus_rdx(bus_rdx),
                                                 .bus_lv1_lv2_gnt_proc(bus_lv1_lv2_gnt_proc[1]),
                                                 .bus_lv1_lv2_req_proc(bus_lv1_lv2_req_proc[1]),
                                                 .bus_lv1_lv2_gnt_snoop(bus_lv1_lv2_gnt_snoop[1]),

@@ -55,8 +55,9 @@ module main_func_lv1_il #(
     
     parameter INVALID 	= 2'b00;
     parameter VALID	    = 2'b01;
-    
-    reg [CACHE_DATA_WID - 1     : 0] cache_var        [0 : CACHE_DEPTH/4 - 1];
+    // BUG 2 : Has to be CACHE_DEPTH 
+    //reg [CACHE_DATA_WID - 1     : 0] cache_var        [0 : CACHE_DEPTH/4 - 1];
+    reg [CACHE_DATA_WID - 1     : 0] cache_var        [0 : CACHE_DEPTH - 1];
     reg [CACHE_TAG_MESI_WID - 1 : 0] cache_proc_contr [0 : CACHE_DEPTH - 1];
     
     reg [DATA_WID - 1 : 0] data_bus_cpu_lv1_reg;

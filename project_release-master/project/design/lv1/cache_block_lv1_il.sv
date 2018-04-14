@@ -168,7 +168,9 @@ module cache_block_lv1_il #(
                                                 .blk_access_proc         (blk_access_proc),
                                                 .lru_replacement_proc    (lru_replacement_proc),
                                                 .data_in_bus_cpu_lv1_il  (data_in_bus_cpu_lv1_il),
-                                                .data_in_bus_lv1_lv2     (1'b1),
+						// BUG 3 : tied to 1'b1
+                                                //.data_in_bus_lv1_lv2     (1'b1),
+                                                .data_in_bus_lv1_lv2     (data_in_bus_lv1_lv2),
                                                 .blk_accessed_main       (blk_accessed_main),
                                                 .cache_proc_mesi         (cache_proc_mesi),
                                                 .cache_proc_tag          (cache_proc_tag)

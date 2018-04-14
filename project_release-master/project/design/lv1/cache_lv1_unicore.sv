@@ -77,8 +77,9 @@ module cache_lv1_unicore #(
     
     assign cpu_wr_dl = (addr_bus_cpu_lv1 > IL_DL_ADDR_BOUND)? cpu_wr : 1'b0;
     assign cpu_rd_dl = (addr_bus_cpu_lv1 > IL_DL_ADDR_BOUND)? cpu_rd : 1'b0;  
-
-    assign cpu_rd_il = (addr_bus_cpu_lv1 <= (IL_DL_ADDR_BOUND & 32'h0fffffff))? cpu_rd : 1'b0;
+    // BUG 1 : Address seggregation
+    //assign cpu_rd_il = (addr_bus_cpu_lv1 <= (IL_DL_ADDR_BOUND & 32'h0fffffff))? cpu_rd : 1'b0;
+    assign cpu_rd_il = (addr_bus_cpu_lv1 <= (IL_DL_ADDR_BOUND))? cpu_rd : 1'b0;
     
     assign lv2_rd               = lv2_rd_dl | lv2_rd_il;
     assign bus_lv1_lv2_req_proc = bus_lv1_lv2_req_proc_dl | bus_lv1_lv2_req_proc_il;

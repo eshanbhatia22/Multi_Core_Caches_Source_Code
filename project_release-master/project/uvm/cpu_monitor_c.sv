@@ -49,7 +49,13 @@ class cpu_monitor_c extends uvm_monitor;
             if(vi_cpu_lv1_if.cpu_rd === 1'b1) begin
                 packet.request_type = READ_REQ;
             end
+            if(vi_cpu_lv1_if.cpu_wr === 1'b1) begin
+                packet.request_type = WRITE_REQ;
+            end
             packet.address = vi_cpu_lv1_if.addr_bus_cpu_lv1;
+            if(packet.address >= 32'h4000_0000) begin
+                packet.addr_t = DCACHE;
+            end
             @(posedge vi_cpu_lv1_if.data_in_bus_cpu_lv1 or posedge vi_cpu_lv1_if.cpu_wr_done)
             packet.dat = vi_cpu_lv1_if.data_bus_cpu_lv1;
             @(negedge vi_cpu_lv1_if.cpu_rd or negedge vi_cpu_lv1_if.cpu_wr)

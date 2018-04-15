@@ -26,7 +26,9 @@ module lru_block_lv1 #(
     parameter BLK0_REPLACEMENT = 3'b00x;
     parameter BLK1_REPLACEMENT = 3'b01x;
     parameter BLK2_REPLACEMENT = 3'b1x0;
-    parameter BLK3_REPLACEMENT = 3'bx01;
+	// BUG 9 : LRU replacement hung because of incorrect state
+    // parameter BLK3_REPLACEMENT = 3'bx01;
+	parameter BLK3_REPLACEMENT = 3'b1x1;
     
     reg [LRU_VAR_WID - 1 : 0] lru_var [NUM_OF_SETS - 1 : 0];    
     

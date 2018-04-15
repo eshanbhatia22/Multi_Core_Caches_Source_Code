@@ -127,7 +127,9 @@ module main_func_lv1_dl #(
         bus_rdx_reg             <= 1'bz;
         data_in_bus_lv1_lv2_reg <= 1'bz;
         invalidate_reg          <= 1'bz;
-        invalidation_done       <= 1'bz;
+        // BUG 6 : Connected to 1'b0 changed from 1'bz
+        //invalidation_done     <= 1'bz;
+	invalidation_done       <= 1'b0;// Have to revert to 1'bz
         bus_lv1_lv2_req_proc_dl <= 1'b0;
         bus_lv1_lv2_req_snoop   <= 1'b0;
         data_in_bus_cpu_lv1_dl  <= 1'b0;
@@ -224,6 +226,9 @@ module main_func_lv1_dl #(
                             bus_rd_reg           <= 1'b0;
 			    bus_rdx_reg          <= 1'b0;
                             addr_bus_lv1_lv2_reg <= {tag_proc,index_proc,2'b00};
+		            // BUG 7: Following two lines of code added for invalidation of own - 5mesi
+                            if(invalidate && !invalidation_done)
+                               invalidation_done         <= 1'b1;                            
                             if(all_invalidation_done) begin 
                                 cache_var[{index_proc,blk_access_proc}] <= data_bus_cpu_lv1;
                                 `CACHE_CURRENT_MESI_PROC                <= updated_mesi_proc;

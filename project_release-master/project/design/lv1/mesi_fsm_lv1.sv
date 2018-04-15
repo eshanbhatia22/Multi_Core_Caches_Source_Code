@@ -68,8 +68,11 @@ module mesi_fsm_lv1 #(
             EXCLUSIVE: begin 
                 if (cpu_rd)
                     updated_mesi_proc = EXCLUSIVE;
-                else if (cpu_wr)
-                    updated_mesi_proc = EXCLUSIVE;
+                else if (cpu_wr) begin
+				    // BUG 8 : incorrect state assignment
+                    // updated_mesi_proc = EXCLUSIVE;
+					updated_mesi_proc = MODIFIED;
+				end
                 else
                     updated_mesi_proc = EXCLUSIVE;
             end

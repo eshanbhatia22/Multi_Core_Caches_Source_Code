@@ -64,6 +64,9 @@ class cache_scoreboard_c extends uvm_scoreboard;
 
     task run_phase(uvm_phase phase);
         `uvm_info(get_type_name(), "RUN Phase", UVM_LOW)
+//	forever begin
+//	  @(
+//	end
     endtask : run_phase
 
     //function to obtain the way in which data is present
@@ -311,6 +314,7 @@ class cache_scoreboard_c extends uvm_scoreboard;
         end
         j = get_way_hit(cpu_num, index, tag, packet.addr_type);
         miss = (j < 0)? 1'b1: 1'b0;
+	$display("Prathibha miss %b, address=%h", miss, packet.address);
         other_hit = 1'b0;
         if(!miss) begin
             if(packet.request_type == READ_REQ)     //read hit: do nothing
@@ -340,14 +344,22 @@ class cache_scoreboard_c extends uvm_scoreboard;
                 end else if (packet.addr_type == ICACHE) begin //Icache read miss 
                     expected.bus_req_type = ICACHE_RD;
                 end
-                for(int k = 0; k <= 3; k++) begin       //read miss
+                for(int k = 3; k >= 0; k--) begin       //read miss
                     if(k != i) begin
                         l = get_way_hit(k, index, tag, packet.addr_type);
+			$display("Prathibha: %b, have a hit", l);
                         if(l>=0) begin
                             if(packet.addr_type == DCACHE) begin       //set only for DCache
                                 //expected.bus_req_snoop_num = k;
                                 expected.bus_req_snoop[k] = 1'b1;
-                                expected.req_serviced_by = SERV_NONE;
+				if (k==0) 
+                                expected.req_serviced_by = SERV_SNOOP0;
+				else if (k==1) 
+                                expected.req_serviced_by = SERV_SNOOP1;
+				else if (k==2) 
+                                expected.req_serviced_by = SERV_SNOOP2;
+				else if (k==3) 
+                                expected.req_serviced_by = SERV_SNOOP3;
                                 expected.rd_data = dcache[k][index].data[l];
                                 expected.cp_in_cache= 1'b1;
                                 expected.shared= 1'b1;
@@ -376,7 +388,7 @@ class cache_scoreboard_c extends uvm_scoreboard;
                 end
             end else if(packet.request_type == WRITE_REQ) begin
                 expected.bus_req_type = BUS_RDX;
-                expected.req_serviced_by = SERV_L2;
+                expected.req_serviced_by = SERV_NONE;
                 for(int k = 0; k <= 3; k++) begin
                     if(k != i) begin
                         l = get_way_hit(k, index, tag, packet.addr_type);
@@ -385,23 +397,26 @@ class cache_scoreboard_c extends uvm_scoreboard;
                             if(dcache[k][index].state[l] == STATE_M) begin
                                 //expected.bus_req_snoop_num = k;
                                 expected.bus_req_snoop[k] = 1'b1;
-                                expected.wr_data_snoop = dcache[k][index].data[l];
-                                expected.rd_data = dcache[k][index].data[l];
-                                expected.snoop_wr_req_flag = 1'b1;
+                                //expected.wr_data_snoop = dcache[k][index].data[l];
+                                //expected.rd_data = dcache[k][index].data[l];
+                                expected.rd_data = 0;
+                                //expected.snoop_wr_req_flag = 1'b1;
                                 other_hit = 1'b1;
+                //                expected.req_serviced_by = SERV_L2;
                             end
                             break;
                         end
                     end
                 end
+		// PP : have to add for write data
                 if(!other_hit) begin
-                    if(memory.exists({tag, index})) begin
-                        expected.rd_data = memory[{tag,index}];
-                    end else if(packet.address[3]) begin
-                        expected.rd_data = `CORRECT_DATA_1;
-                    end else begin
-                        expected.rd_data = `CORRECT_DATA_0;
-                    end
+                   // if(memory.exists({tag, index})) begin
+                   //     expected.rd_data = memory[{tag,index}];
+                   // end else if(packet.address[3]) begin
+                   //     expected.rd_data = `CORRECT_DATA_1;
+                   // end else begin
+                   //     expected.rd_data = `CORRECT_DATA_0;
+                   // end
                 end
             end
         end

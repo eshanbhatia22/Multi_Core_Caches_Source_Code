@@ -36,3 +36,7 @@
 `include "L2_write_miss.sv"
 `include "L2_write_miss_blk_replaced.sv"
 `include "read_miss_dcache_snoop_service.sv"
+`include "DCACHE_ONE_HOT.sv"
+`include "ICACHE_ONE_HOT.sv"
+`include "DCACHE_MULTI_RAW.sv"
+`include "DCACHE_HIGH_TRAFFIC.sv"

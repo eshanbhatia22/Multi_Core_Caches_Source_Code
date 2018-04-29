@@ -29,7 +29,19 @@ module lru_block_lv1 #(
 	// BUG 9 : LRU replacement hung because of incorrect state
     // parameter BLK3_REPLACEMENT = 3'bx01;
 	parameter BLK3_REPLACEMENT = 3'b1x1;
-    
+
+	covergroup cover_lru;
+		option.per_instance = 1;
+		cov_repl_blk: coverpoint lru_replacement_proc {
+			bins BIN_BLK_0 = BLK0_REPLACEMENT;
+			bins BIN_BLK_1 = BLK1_REPLACEMENT;
+			bins BIN_BLK_2 = BLK2_REPLACEMENT;
+			bins BIN_BLK_3 = BLK3_REPLACEMENT;
+		}
+    endgroup
+
+	cover_lru inst_cover_lru = new();
+
     reg [LRU_VAR_WID - 1 : 0] lru_var [NUM_OF_SETS - 1 : 0];    
     
     // determine which to replace

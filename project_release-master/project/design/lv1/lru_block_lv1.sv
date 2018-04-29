@@ -30,13 +30,24 @@ module lru_block_lv1 #(
     // parameter BLK3_REPLACEMENT = 3'bx01;
 	parameter BLK3_REPLACEMENT = 3'b1x1;
 
+	parameter BLK0_ACCESS = 3'b000;
+	parameter BLK1_ACCESS = 3'b001;
+	parameter BLK2_ACCESS = 3'b010;
+	parameter BLK3_ACCESS = 3'b011;
+
 	covergroup cover_lru;
 		option.per_instance = 1;
 		cov_repl_blk: coverpoint lru_replacement_proc {
-			bins BIN_BLK_0 = BLK0_REPLACEMENT;
-			bins BIN_BLK_1 = BLK1_REPLACEMENT;
-			bins BIN_BLK_2 = BLK2_REPLACEMENT;
-			bins BIN_BLK_3 = BLK3_REPLACEMENT;
+			bins BIN_REP_BLK_0 = BLK0_REPLACEMENT;
+			bins BIN_REP_BLK_1 = BLK1_REPLACEMENT;
+			bins BIN_REP_BLK_2 = BLK2_REPLACEMENT;
+			bins BIN_REP_BLK_3 = BLK3_REPLACEMENT;
+		}
+		cov_access_blk: coverpoint blk_accessed_main {
+			bins BIN_ACC_BLK_0 = BLK0_ACCESS;
+			bins BIN_ACC_BLK_1 = BLK1_ACCESS;
+			bins BIN_ACC_BLK_2 = BLK2_ACCESS;
+			bins BIN_ACC_BLK_3 = BLK3_ACCESS;
 		}
     endgroup
 

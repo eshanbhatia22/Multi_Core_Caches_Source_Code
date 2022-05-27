@@ -1,1 +1,1 @@
-# CSCE-689-Project
+# This project demonstrated a comprehensive approach to create a verification environment for verifying caches in a multi-core system.
